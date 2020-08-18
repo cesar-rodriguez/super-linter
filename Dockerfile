@@ -15,6 +15,7 @@ FROM yoheimuta/protolint:v0.26.0 as protolint
 FROM koalaman/shellcheck:v0.7.1 as shellcheck
 FROM wata727/tflint:0.18.0 as tflint
 FROM hadolint/hadolint:latest-alpine as dockerfile-lint
+FROM accurics/terrascan:latest as terrascan
 
 ##################
 # Get base image #
@@ -161,6 +162,12 @@ COPY --from=golangci-lint /usr/bin/golangci-lint /usr/bin/
 # Install TFLint #
 ##################
 COPY --from=tflint /usr/local/bin/tflint /usr/bin/
+
+##################
+# Install Terrascan #
+##################
+COPY --from=terrascan /go/bin/terrascan /usr/bin/
+
 
 ######################
 # Install protolint #
